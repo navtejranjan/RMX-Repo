@@ -1,0 +1,872 @@
+/* General Mobile & Safe Area Styling */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #f1f1f1; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* SYSTEM INSETS / SAFE AREAS */
+    /* These ensure content isn't hidden behind the notch, status bar, or gesture navigation */
+    padding-top: env(safe-area-inset-top, 20px);
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* Adaptive Layout Wrapper */
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    
+    /* Adaptive logic: limits width on tablets/desktops, uses full width on phones */
+    max-width: 500px; 
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* Branding Section */
+.branding {
+    margin: 4vh 0; /* Responsive margin using viewport height */
+    text-align: center;
+}
+
+.logo-placeholder {
+    /* Responsive Typography: minimum 24px, scales with screen width, max 36px */
+    font-size: clamp(24px, 6vw, 36px); 
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-text-purple { color: #6a1b9a; }
+.logo-text-orange { color: #f57c00; }
+.logo-icon { margin-left: 5px; font-size: clamp(20px, 5vw, 28px); }
+
+.ops-title-box {
+    border: 2px solid #6a1b9a;
+    color: #6a1b9a;
+    padding: 10px 20px;
+    /* Responsive Typography */
+    font-size: clamp(18px, 4vw, 24px); 
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-top: 10px;
+}
+
+/* The Login Card - Adaptive */
+.login-card {
+    background: white;
+    width: 100%;
+    flex-grow: 1; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    /* Adaptive Layout for larger screens (tablets) */
+    @media (min-width: 600px) {
+        flex-grow: 0;
+        height: auto;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+}
+
+.login-header {
+    background-color: #6a1b9a;
+    color: white;
+    width: 100%;
+    padding: 15px 0;
+    text-align: center;
+    font-weight: bold;
+    font-size: clamp(18px, 4vw, 22px);
+    letter-spacing: 1px;
+    @media (min-width: 600px) { border-radius: 12px 12px 0 0; }
+}
+
+form {
+    padding: 5vh 20px;
+    width: 90%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-group {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ccc;
+    font-size: clamp(16px, 4vw, 20px);
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 16px 16px 16px 45px; 
+    border: 2px solid #f57c00;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px; /* Must remain 16px minimum to stop iOS/Android auto-zoom on focus */
+    outline: none;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: clamp(16px, 4vw, 20px);
+    cursor: pointer;
+}
+
+.login-btn {
+    background-color: #3f51b5;
+    color: white;
+    border: none;
+    padding: 16px;
+    width: 100%;
+    border-radius: 6px;
+    font-size: clamp(18px, 4vw, 20px);
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+/* Error Message Styling */
+.error-message {
+    color: #d32f2f; /* A sharp, readable red */
+    font-size: clamp(12px, 3.5vw, 14px);
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
+    display: none; /* Keeps it hidden until triggered by JavaScript */
+}
+.forgot-password {
+    color: #6a1b9a;
+    text-decoration: none;
+    font-size: clamp(14px, 3.5vw, 16px);
+}
+
+.card-footer {
+    background-color: #f1f1f1;
+    width: 100%;
+    padding: env(safe-area-inset-bottom, 15px) 0 15px 0; /* Nav bar safe area */
+    text-align: center;
+    font-size: clamp(10px, 2.5vw, 12px);
+    color: #666;
+    border-top: 1px solid #ddd;
+    margin-top: auto; 
+    @media (min-width: 600px) { border-radius: 0 0 12px 12px; }
+}
+
+/* =========================================
+   HOME SCREEN STYLING (home.html)
+   ========================================= */
+
+.home-body {
+    background-color: white; /* Clean white background for the dashboard */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+/* Top App Bar */
+.top-bar {
+    background-color: #6a1b9a; /* Matching brand purple */
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: calc(env(safe-area-inset-top, 20px) + 15px) 20px 15px 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.top-icon {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.top-title {
+    margin: 0;
+    font-size: clamp(18px, 5vw, 22px);
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.logout-btn {
+    background-color: white;
+    color: #d32f2f; /* Red text as requested/shown in design */
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Main Content Area */
+.main-content {
+    padding: 20px;
+    flex-grow: 1; /* Pushes the bottom nav down */
+}
+
+.greeting-text {
+    margin: 0 0 10px 0;
+    font-size: clamp(18px, 4.5vw, 22px);
+    font-weight: normal;
+    color: #333;
+}
+
+.date-text {
+    margin: 0;
+    font-size: clamp(12px, 3.5vw, 14px);
+    color: #555;
+}
+
+/* Bottom Navigation Bar */
+.bottom-bar {
+    background-color: #6a1b9a;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 15px 0 calc(env(safe-area-inset-bottom, 15px) + 15px) 0;
+    
+    /* Fixed Positioning & Width Limits */
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-width: 500px; /* Stops it from stretching too wide on PC/Tablets */
+    left: 50%;
+    transform: translateX(-50%); /* Keeps it perfectly centered */
+    box-sizing: border-box; /* Ensures padding is calculated internally */
+}
+
+.nav-icon {
+    color: rgba(255, 255, 255, 0.7); /* Slightly dimmed white */
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.nav-icon.active {
+    color: white; /* Brighter white for the active tab */
+}
+/* =========================================
+   OPERATOR DASHBOARD STYLING
+   ========================================= */
+
+/* Alert Banner */
+.alert-banner {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-size: clamp(12px, 3.5vw, 14px);
+    border-left: 4px solid #c62828;
+}
+.alert-banner i { margin-right: 10px; font-size: 18px; }
+
+/* Metrics Grid */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.metric-card, .card {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+    margin-bottom: 15px;
+}
+
+.metric-title { font-size: 12px; color: #666; text-transform: uppercase; font-weight: bold; }
+.metric-value { font-size: 28px; font-weight: bold; color: #333; margin: 5px 0; }
+.metric-subtitle { font-size: 11px; color: #999; }
+.text-orange { color: #f57c00; }
+.text-green { color: #2e7d32; font-weight: bold; }
+
+/* Progress Bar */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.progress-bar-bg {
+    background-color: #e0e0e0;
+    height: 10px;
+    border-radius: 5px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    background-color: #4caf50;
+    height: 100%;
+    border-radius: 5px;
+}
+
+/* Recent Submissions List */
+.recent-list { list-style: none; padding: 0; margin: 0; }
+.recent-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+.recent-list li:last-child { border-bottom: none; padding-bottom: 0; }
+
+.list-info { display: flex; flex-direction: column; }
+.list-title { font-size: 14px; font-weight: bold; color: #333; }
+.list-time { font-size: 11px; color: #777; margin-top: 3px; }
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.badge-success { background-color: #e8f5e9; color: #2e7d32; }
+
+/* Floating Action Button (FAB) */
+.fab-btn {
+    position: fixed;
+    bottom: calc(env(safe-area-inset-bottom, 15px) + 70px); /* Sits above bottom nav */
+    right: 20px;
+    background-color: #f57c00; /* Brand Orange */
+    color: white;
+    border: none;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    font-size: 24px;
+    box-shadow: 0 4px 10px rgba(245, 124, 0, 0.4);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s;
+    z-index: 100;
+}
+.fab-btn:active { transform: scale(0.95); }
+/* =========================================
+   ACTION MENU OVERLAY
+   ========================================= */
+.action-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Creates a white tint with a strong blur effect */
+    background-color: rgba(255, 255, 255, 0.5); 
+    backdrop-filter: blur(8px); 
+    -webkit-backdrop-filter: blur(8px); /* Support for iPhones */
+    
+    z-index: 1000; /* Ensures it sits above everything, including the top bar */
+    display: none; /* Hidden until triggered */
+    justify-content: center;
+    align-items: center;
+}
+
+.action-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 80%;
+    max-width: 300px;
+}
+
+.action-btn {
+    background-color: #6a1b9a;
+    color: white;
+    border: none;
+    padding: 16px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 6px;
+    box-shadow: 0 4px 15px rgba(106, 27, 154, 0.3);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.action-btn:active {
+    transform: scale(0.96);
+    background-color: #4a148c; /* Slightly darker purple on tap */
+}
+
+/* =========================================
+   REJECTION ENTRY FORM STYLING
+   ========================================= */
+
+/* 1. Force the removal of any inherited padding to fix the top gap */
+.scrollable-form {
+    padding: 0 !important; 
+    overflow-y: auto; 
+    overflow-x: hidden; /* NEW: Stops horizontal scrolling */
+    background-color: white;
+    display: block; /* Ensures content starts at the very top */
+    box-sizing: border-box; /* NEW: Prevents width from expanding past 100% */
+}
+
+/* 2. Pull the sub-header closer to the top bar for a seamless look */
+.rejection-header {
+    background-color: #6a1b9a;
+    color: white;
+    text-align: center;
+    padding: 0px 12px 10px 12px; 
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: none; 
+}
+
+/* 3. Allow the form to stretch wider to reduce side margins */
+#rejectionDataForm {
+    width: 100%;
+    max-width: 600px; /* Increased from 420px to reduce side gaps on larger screens */
+    margin: 0 auto;
+    background-color: white;
+    box-sizing: border-box; /* NEW: Keeps the form elements inside the 100% width limit */
+}
+
+/* 4. Reduce padding around the Date/Shift controls */
+.rejection-controls {
+    display: flex;
+    justify-content: center; 
+    gap: 15px; 
+    padding: 10px 2px; /* Reduced vertical and horizontal padding */
+    background-color: white;
+    border-bottom: 2px solid #6a1b9a;
+}
+
+.control-pill {
+    display: flex;
+    align-items: center;
+    border: 1px solid #6a1b9a;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.control-pill label {
+    background-color: #6a1b9a;
+    color: white;
+    padding: 8px 12px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.control-pill input, .control-pill select {
+    border: none;
+    padding: 8px;
+    font-size: 14px;
+    outline: none;
+    background-color: white;
+}
+
+/* Data Entry Rows */
+.rej-row {
+    display: flex;
+    background-color: #6a1b9a;
+    border-bottom: 1px solid white;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.rej-label {
+    flex: 0 0 35%; 
+    color: white;
+    font-size: clamp(14px, 4vw, 18px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid white;
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.rej-inputs {
+    flex: 0 0 65%; 
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-sizing: border-box;
+}
+
+.rej-input-group {
+    display: flex;
+    border: 1px solid white;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: white;
+    height: 34px; 
+    width: 100%;
+    box-sizing: border-box; /* THIS FIXES THE RIGHT-SIDE CUTOFF */
+}
+
+.r-lbl {
+    background-color: #6a1b9a;
+    color: white;
+    font-weight: bold;
+    flex: 0 0 45%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    border-right: 1px solid white;
+    box-sizing: border-box;
+}
+
+.rej-input-group input {
+    flex: 0 0 55%; 
+    border: none;
+    padding: 0;
+    font-size: 13px;
+    outline: none;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Submit Button Area */
+.rej-submit-container {
+    padding: 20px;
+    background: #f1f1f1;
+    text-align: center;
+}
+
+.rej-submit-btn {
+    background-color: #316498; 
+    color: white;
+    font-weight: bold;
+    padding: 14px 40px;
+    border-radius: 6px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.2s;
+}
+
+.rej-submit-btn:active {
+    background-color: #234b73;
+}
+/* =========================================
+   PREVIEW SCREEN STYLING
+   ========================================= */
+
+.success-banner {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    padding: 15px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-bottom: 2px solid #c8e6c9;
+}
+
+.success-banner i {
+    font-size: 24px;
+}
+
+.preview-card {
+    padding: 15px 25px;
+    background-color: white;
+}
+
+#rejectionPreview {
+    padding-bottom: 100px; 
+}
+
+.preview-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+}
+
+.preview-label {
+    font-weight: bold;
+    color: #6a1b9a; /* RMX Purple */
+}
+
+.preview-val {
+    color: #333;
+    font-weight: 500;
+}
+/* =========================================
+   MODAL POPUP STYLING
+   ========================================= */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Dark background */
+    display: none; /* Hidden by default */
+    justify-content: center; 
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal-box {
+    background: white;
+    padding: 25px 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 320px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.warning-icon {
+    font-size: 45px;
+    color: #d32f2f; /* Warning Red */
+    margin-bottom: 15px;
+}
+
+.modal-box p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 25px;
+    font-weight: bold;
+    line-height: 1.4;
+}
+
+.modal-btn {
+    background-color: #6a1b9a;
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+/* =========================================
+   REASON BOX UI UPDATE
+   ========================================= */
+.rej-row {
+    flex-wrap: wrap; /* Forces the 100% width reason area to drop below the inputs */
+}
+
+.rej-reason-area {
+    width: 100%;
+    padding: 5px 15px 15px 15px; 
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.reason-badge {
+    border: 1.5px solid white;
+    color: white;
+    padding: 3px 12px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 14px;
+    width: max-content;
+    background-color: transparent;
+}
+
+.reason-full-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #333;
+}
+/* =========================================
+   PROFILE & AVATAR STYLING
+   ========================================= */
+.nav-avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 1px solid white;
+}
+
+.profile-card {
+    background: white;
+    padding: 30px 20px;
+    border-radius: 12px;
+    width: 85%;
+    max-width: 320px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+}
+
+.close-profile {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    color: #888;
+    cursor: pointer;
+}
+
+.profile-pic-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 15px auto;
+}
+
+#profileImagePreview {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #6a1b9a;
+}
+
+.edit-pic-badge {
+    position: absolute;
+    bottom: 0;
+    right: 5px;
+    background-color: #6a1b9a;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 2px solid white;
+    font-size: 14px;
+}
+
+#profileNameDisplay {
+    margin: 0 0 5px 0;
+    color: #333;
+    font-size: 22px;
+}
+
+.profile-role {
+    margin: 0 0 15px 0;
+    color: #6a1b9a;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.profile-details {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    color: #555;
+}
+.detail-row {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 6px;
+}
+.detail-row:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+/* HANDOVER SPECIFIC STYLES */
+.category-box {
+    background-color: #fff;
+    border-left: 4px solid #6a1b9a;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.category-box h3 {
+    margin: 0 0 10px 0;
+    color: #6a1b9a;
+}
+
+.reason-input {
+    width: 100%;
+    margin-top: 10px;
+    padding: 8px;
+    border: 1px dashed #ccc;
+    background-color: #fafafa;
+    border-radius: 4px;
+}
+
+.preview-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+.secondary-btn {
+    background-color: #757575;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    width: 40%;
+    font-weight: bold;
+}
+
+#finalSubmitBtn {
+    width: 60%;
+}

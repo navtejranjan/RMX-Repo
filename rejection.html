@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>RMX - Rejection Entry</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<!-- OVERRIDE STYLES FOR SCROLLING, STICKY HEADER, AND FULL WIDTH -->
+<!-- OVERRIDE STYLES FOR SCROLLING, STICKY HEADER, AND FULL WIDTH -->
+    <style>
+        /* 1. Reset Body */
+        html, body.home-body { 
+            display: block !important; 
+            height: auto !important; 
+            min-height: 100vh !important; 
+            margin: 0 !important; 
+            padding: 0 !important; 
+            overflow-x: hidden !important; 
+            overflow-y: auto !important;
+            background-color: #f4f4f9 !important; 
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+        
+        /* 2. Lock Top Bar */
+        header.top-bar {
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 1000 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            box-sizing: border-box !important;
+            border-radius: 0 !important;
+        }
+
+        /* 3. Kill Main Content Left/Right Padding (High Specificity) */
+        main.main-content.scrollable-form {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            /* 0 on left/right, 80px on bottom so submit button isn't trapped */
+            padding: 0 0 80px 0 !important; 
+            box-sizing: border-box !important;
+        }
+
+        /* 4. Kill Form and Row Margins/Padding */
+        form#rejectionDataForm {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            padding-left: 0 !important; 
+            padding-right: 0 !important;
+            box-sizing: border-box !important;
+            border-radius: 0 !important;
+            background-color: transparent !important; /* Removes the white box effect */
+        }
+
+        .rejection-header, .rej-row {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            box-sizing: border-box !important;
+            border-radius: 0 !important; /* Squares off the edges */
+        }
+        
+        /* Keep Date/Shift controls looking neat */
+        .rejection-controls {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+    </style>
+</head>
+<body class="home-body">
+    
+    <!-- Top App Bar with Back Button -->
+    <header class="top-bar">
+        <i class="fas fa-chevron-left top-icon" id="backBtn" onclick="window.location.href='home.html'"></i>
+        <h1 class="top-title">RMX</h1>
+        <div style="width: 24px;"></div> <!-- Spacer for centering -->
+    </header>
+
+    <!-- Scrollable Main Content -->
+    <main class="main-content scrollable-form">
+        
+        <div class="rejection-header">RM Rejection Entry</div>
+
+<form id="rejectionDataForm">
+            <!-- Date and Shift Controls -->
+            <div class="rejection-controls">
+                <div class="control-pill">
+                    <label>Date</label>
+                    <input type="date" id="rejDate" required>
+                </div>
+                <div class="control-pill">
+                    <label>Shift</label>
+                    <select id="rejShift" required>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="rej-row">
+                <div class="rej-label">STRINGER</div>
+                <div class="rej-inputs">
+                    <div class="rej-input-group"><span class="r-lbl">Cell</span><input type="number" id="str_cell" placeholder="Kg" min="0" step="any"></div>
+                    <div class="rej-input-group"><span class="r-lbl">Ribbon</span><input type="number" id="str_ribbon" placeholder="Kg" min="0" step="any"></div>
+                </div>
+                <div class="rej-reason-area">
+                    <div class="reason-badge">Reason</div>
+                    <input type="text" id="str_reason" class="reason-full-input" placeholder="Type here">
+                </div>
+            </div>
+            
+            <div class="rej-row">
+                <div class="rej-label">BUSSING</div>
+                <div class="rej-inputs">
+                    <div class="rej-input-group"><span class="r-lbl">4MM</span><input type="number" id="bus_4mm" placeholder="Kg" min="0" step="any"></div>
+                    <div class="rej-input-group"><span class="r-lbl">6MM</span><input type="number" id="bus_6mm" placeholder="Kg" min="0" step="any"></div>
+                </div>
+                <div class="rej-reason-area">
+                    <div class="reason-badge">Reason</div>
+                    <input type="text" id="bus_reason" class="reason-full-input" placeholder="Type here">
+                </div>
+            </div>
+
+            <div class="rej-row">
+                <div class="rej-label">String R/W</div>
+                <div class="rej-inputs">
+                    <div class="rej-input-group"><span class="r-lbl">Cell</span><input type="number" id="srw_cell" placeholder="Kg" min="0" step="any"></div>
+                    <div class="rej-input-group"><span class="r-lbl">Ribbon</span><input type="number" id="srw_ribbon" placeholder="Kg" min="0" step="any"></div>
+                </div>
+                <div class="rej-reason-area">
+                    <div class="reason-badge">Reason</div>
+                    <input type="text" id="srw_reason" class="reason-full-input" placeholder="Type here">
+                </div>
+            </div>
+
+            <div class="rej-row">
+                <div class="rej-label">Module R/W</div>
+                <div class="rej-inputs">
+                    <div class="rej-input-group"><span class="r-lbl">Cell</span><input type="number" id="mrw_cell" placeholder="Kg" min="0" step="any"></div>
+                    <div class="rej-input-group"><span class="r-lbl">Ribbon</span><input type="number" id="mrw_ribbon" placeholder="Kg" min="0" step="any"></div>
+                    <div class="rej-input-group"><span class="r-lbl">Busbar</span><input type="number" id="mrw_busbar" placeholder="Kg" min="0" step="any"></div>
+                </div>
+                <div class="rej-reason-area">
+                    <div class="reason-badge">Reason</div>
+                    <input type="text" id="mrw_reason" class="reason-full-input" placeholder="Type here">
+                </div>
+            </div>
+
+            <div class="rej-row">
+                <div class="rej-label">Framing</div>
+                <div class="rej-inputs">
+                    <div class="rej-input-group"><span class="r-lbl">RTV</span><input type="number" id="frm_rtv" placeholder="Kg" min="0" step="any"></div>
+                    <div class="rej-input-group"><span class="r-lbl">L Frame</span><input type="number" id="frm_l" placeholder="Qty" min="0"></div>
+                    <div class="rej-input-group"><span class="r-lbl">S Frame</span><input type="number" id="frm_s" placeholder="Qty" min="0"></div>
+                </div>
+                <div class="rej-reason-area">
+                    <div class="reason-badge">Reason</div>
+                    <input type="text" id="frm_reason" class="reason-full-input" placeholder="Type here">
+                </div>
+            </div>
+
+            <div class="rej-row">
+                <div class="rej-label">Potting</div>
+                <div class="rej-inputs">
+                    <div class="rej-input-group"><span class="r-lbl">Potting</span><input type="number" id="potting" placeholder="Kg" min="0" step="any"></div>
+                </div>
+                <div class="rej-reason-area">
+                    <div class="reason-badge">Reason</div>
+                    <input type="text" id="potting_reason" class="reason-full-input" placeholder="Type here">
+                </div>
+            </div>
+
+            <div class="rej-row">
+                <div class="rej-label">JB</div>
+                <div class="rej-inputs">
+                    <div class="rej-input-group"><span class="r-lbl">+ve</span><input type="number" id="bus2_pos" placeholder="Qty" min="0"></div>
+                    <div class="rej-input-group"><span class="r-lbl">-ve</span><input type="number" id="bus2_neg" placeholder="Qty" min="0"></div>
+                    <div class="rej-input-group"><span class="r-lbl">Middle</span><input type="number" id="bus2_mid" placeholder="Qty" min="0"></div>
+                </div>
+                <div class="rej-reason-area">
+                    <div class="reason-badge">Reason</div>
+                    <input type="text" id="bus2_reason" class="reason-full-input" placeholder="Type here">
+                </div>
+            </div>
+
+            <div class="rej-row">
+                <div class="rej-label">Front Glass</div>
+                <div class="rej-inputs">
+                    <div class="rej-input-group"><span class="r-lbl">Weight</span><input type="number" id="fg_weight" placeholder="Kg" min="0" step="any"></div>
+                    <div class="rej-input-group"><span class="r-lbl">Nos</span><input type="number" id="fg_nos" placeholder="Nos" min="0"></div>
+                </div>
+                <div class="rej-reason-area">
+                    <div class="reason-badge">Reason</div>
+                    <input type="text" id="fg_reason" class="reason-full-input" placeholder="Type here">
+                </div>
+            </div>
+
+            <div class="rej-row">
+                <div class="rej-label">Back Glass</div>
+                <div class="rej-inputs">
+                    <div class="rej-input-group"><span class="r-lbl">Weight</span><input type="number" id="bg_weight" placeholder="Kg" min="0" step="any"></div>
+                    <div class="rej-input-group"><span class="r-lbl">Nos</span><input type="number" id="bg_nos" placeholder="Nos" min="0"></div>
+                </div>
+                <div class="rej-reason-area">
+                    <div class="reason-badge">Reason</div>
+                    <input type="text" id="bg_reason" class="reason-full-input" placeholder="Type here">
+                </div>
+            </div>
+
+            <div class="rej-row">
+                <div class="rej-label">EPE</div>
+                <div class="rej-inputs">
+                    <div class="rej-input-group"><span class="r-lbl">EPE</span><input type="number" id="epe_weight" placeholder="Kg" min="0" step="any"></div>
+                </div>
+                <div class="rej-reason-area">
+                    <div class="reason-badge">Reason</div>
+                    <input type="text" id="epe_reason" class="reason-full-input" placeholder="Type here">
+                </div>
+            </div>
+
+            <!-- Change Submit button to Preview Button -->
+            <div class="rej-submit-container">
+                <button type="button" id="rejPreviewBtn" class="rej-submit-btn">PREVIEW DATA</button>
+            </div>
+        </form>
+
+        <!-- ========================================= -->
+        <!-- PREVIEW SCREEN (Hidden by default)        -->
+        <!-- ========================================= -->
+        <div id="rejectionPreview" style="display: none; padding-top: 15px; width: 100%; max-width: 100%; padding-bottom: 80px;">
+            <div class="rejection-header" style="margin-bottom: 15px; text-align: center; font-weight: bold; padding: 10px; background-color: white; color: #6a1b9a; border: 2px solid #6a1b9a;">Preview Rejection Data</div>
+            
+            <div class="preview-card" id="rejPreviewContent" style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 2px solid #6a1b9a; margin-left: 10px; margin-right: 10px;">
+                <!-- Javascript will inject the submitted data here -->
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 40px;">
+                <button type="button" id="rejEditBtn" style="background-color: #757575; color: white; border: none; padding: 12px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); margin:0;">EDIT</button>
+                <button type="button" id="rejDownloadJpegBtn" style="background-color: #28a745; color: white; border: none; padding: 12px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); margin:0;">DOWNLOAD</button>
+                <button type="button" id="rejFinalSubmitBtn" class="rej-submit-btn" style="margin: 0; padding: 12px 20px; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">SUBMIT</button>
+            </div>
+        </div>
+
+    </main>
+<!-- Bottom Navigation Bar (Hidden on form, visible on preview) -->
+    <nav id="previewBottomBar" class="bottom-bar" style="display: none;">
+        <i class="fas fa-home nav-icon active"></i>
+        <i id="gridMenuBtn" class="fas fa-th nav-icon"></i>
+        <i class="fas fa-bell nav-icon"></i>
+        <i class="fas fa-user-circle nav-icon"></i> 
+    </nav>
+    <script src="script.js"></script>
+    <!-- ========================================= -->
+    <!-- DUPLICATE WARNING POPUP                   -->
+    <!-- ========================================= -->
+    <div id="duplicateModal" class="modal-overlay" style="display: none;">
+        <div class="modal-box">
+            <i class="fas fa-exclamation-triangle warning-icon"></i>
+            <p>The data has been already submitted on this date & shift</p>
+            <button id="closeModalBtn" class="modal-btn">OK</button>
+        </div>
+    </div>
+</body>
+</html>
