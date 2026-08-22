@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="styles.css">
     <!-- FontAwesome for the icons in the input fields -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- AUTO-LOGIN CHECKER -->
+    <script>
+        // If the phone remembers a username, instantly redirect to the home screen
+        if (localStorage.getItem("username")) {
+            window.location.replace("home.html");
+        }
+    </script>
 </head>
 <body>
 
