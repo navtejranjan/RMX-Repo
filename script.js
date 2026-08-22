@@ -318,10 +318,13 @@ if (rejFinalSubmitBtn) {
                 alert(data.message);
                 rejFinalSubmitBtn.textContent = originalText;
                 rejFinalSubmitBtn.disabled = false;
-            } else if (data.status === "success") {
+            } 
+            else if (data.status === "success") {
                 alert("Success! Rejection data submitted.");
-                window.location.href = "home.html"; // Redirects home
-            } else {
+                localStorage.removeItem('rejectionDraft'); // Wipes the memory for a fresh start!
+                window.location.href = "home.html"; 
+            }
+            else {
                 alert("Error saving data: " + data.message);
                 rejFinalSubmitBtn.textContent = originalText;
                 rejFinalSubmitBtn.disabled = false;
@@ -610,8 +613,9 @@ if (finalSubmitBtn) {
             } 
             else if (data.status === "success") {
                 alert("Success! Handover data sent to PPC.");
+                localStorage.removeItem('handoverDraft'); // Wipes the memory for a fresh start!
                 window.location.href = "home.html"; 
-            } 
+            }
             else {
                 alert("Error saving data: " + data.message);
                 finalSubmitBtn.textContent = originalText;
@@ -702,3 +706,47 @@ if (rejDownloadJpegBtn) {
         });
     });
 }
+// =========================================
+// AUTO-SAVE DRAFT LOGIC (RESUME WHERE LEFT OFF)
+// =========================================
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // Universal function to save and load drafts for any form container
+    function setupAutoSave(containerId, storageKey) {
+        const container = document.getElementById(containerId);
+        if (!container) return; // Skip if we aren't on this page
+
+        // 1. Load saved data immediately when the screen opens
+        const savedDraft = localStorage.getItem(storageKey);
+        if (savedDraft) {
+            const parsedDraft = JSON.parse(savedDraft);
+            const inputs = container.querySelectorAll('input, select, textarea');
+            
+            inputs.forEach(input => {
+                // If the memory has a value for this input box, fill it in!
+                if (input.id && parsedDraft[input.id] !== undefined) {
+                    input.value = parsedDraft[input.id];
+                }
+            });
+        }
+
+        // 2. Listen for ANY typing or changes, and save instantly
+        container.addEventListener('input', () => {
+            const currentData = {};
+            const inputs = container.querySelectorAll('input, select, textarea');
+            
+            inputs.forEach(input => {
+                if (input.id) {
+                    currentData[input.id] = input.value;
+                }
+            });
+            
+            // Save the entire form's current state to the phone's memory
+            localStorage.setItem(storageKey, JSON.stringify(currentData));
+        });
+    }
+
+    // Activate for both Handover and Rejection screens
+    setupAutoSave('hoFormContainer', 'handoverDraft');
+    setupAutoSave('rejectionDataForm', 'rejectionDraft');
+});
