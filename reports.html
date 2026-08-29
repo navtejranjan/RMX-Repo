@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insights & Reports</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FULL SCREEN MOBILE OVERRIDE -->
+    <style>
+        html, body {
+            width: 100% !important; max-width: 100% !important; margin: 0 !important;
+            padding: 0 !important; overflow-x: hidden !important; background-color: #f4f4f9 !important; 
+        }
+        .top-bar {
+            width: 100% !important; position: fixed; top: 0; left: 0; right: 0;
+            background-color: #6a1b9a; color: white; display: flex; align-items: center;
+            padding: 15px; z-index: 1000; box-sizing: border-box;
+        }
+        .main-content {
+            padding: 80px 15px 30px 15px !important; /* Spacing for fixed top bar */
+            box-sizing: border-box !important;
+        }
+        /* Mobile Report Cards */
+        .report-card {
+            background: white; border-radius: 8px; padding: 15px; margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 5px solid #dc3545;
+        }
+        .report-card h4 { margin: 0 0 10px 0; color: #333; font-size: 16px; }
+        .report-card p { margin: 4px 0; color: #555; font-size: 14px; }
+        .loader { text-align: center; margin-top: 50px; font-weight: bold; color: #6a1b9a; }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <header class="top-bar">
+        <i class="fas fa-arrow-left" style="font-size: 20px; cursor: pointer; margin-right: 15px;" onclick="location.href='home.html'"></i>
+        <h3 style="margin: 0; font-size: 18px;">Rejection Insights</h3>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <div id="loadingIndicator" class="loader">
+            <i class="fas fa-spinner fa-spin" style="font-size: 30px; margin-bottom: 10px;"></i>
+            <p>Fetching latest reports...</p>
+        </div>
+        <!-- Chart Container -->
+     <div id="chartContainer" style="display: none; background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px;">
+         <canvas id="rejectionChart"></canvas>
+     </div>
+        <!-- Data will be injected here by JavaScript -->
+        <div id="reportContainer" style="display: none;"></div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

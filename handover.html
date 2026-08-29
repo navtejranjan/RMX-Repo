@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Handover to PPC</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        /* OVERRIDE GLOBAL CSS TO PREVENT TOP CUT-OFF */
+        html, body { 
+            display: block !important; 
+            height: auto !important; 
+            min-height: 100vh !important; 
+            margin: 0 !important; 
+            padding: 0 !important; 
+            overflow-y: auto !important;
+            background-color: #6a1b9a !important; 
+        }
+        
+        .ho-wrapper { width: 100%; max-width: 100%; margin: 0 auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        /* Top Title Bar */
+        .ho-header { 
+            background-color: #6a1b9a; 
+            color: white; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 15px; 
+            font-weight: bold; 
+            font-size: 18px; 
+            border-bottom: 1px solid #55127d; 
+            /* THE STICKY MAGIC */
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
+        .ho-header i { position: absolute; left: 15px; cursor: pointer; font-size: 18px; padding: 5px; }
+        
+        /* Date Bar (White Background matching screenshot) */
+        .ho-date-bar { background-color: white; padding: 12px; display: flex; justify-content: center; }
+        .ho-date-group { display: flex; align-items: stretch; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-radius: 6px;}
+        .ho-date-label { background-color: #6a1b9a; color: white; font-weight: bold; padding: 6px 25px; border-radius: 6px 0 0 6px; display: flex; align-items: center; font-size: 15px;}
+        .ho-date-input { border: 1px solid #6a1b9a; padding: 6px 10px; border-radius: 0 6px 6px 0; outline: none; font-family: inherit; font-size: 14px; font-weight: bold; color: #333; }
+        
+        /* Process Blocks */
+        .ho-processes { background-color: #6a1b9a; color: white; }
+        .ho-block { border-top: 1px solid #fff; border-bottom: 1px solid #fff; padding: 15px; margin-top: -1px; }
+        .ho-row { display: flex; align-items: center; margin-bottom: 10px; }
+        .ho-label { width: 40%; font-weight: 500; font-size: 20px; padding-right: 10px; }
+        .ho-inputs { width: 60%; display: flex; flex-direction: column; gap: 8px; }
+        
+        /* Split Input Groups */
+        .ho-input-group { display: flex; border: 1px solid #fff; border-radius: 4px; overflow: hidden; background: white; }
+        .ho-sub-label { background-color: #6a1b9a; color: white; width: 50%; padding: 6px; text-align: center; font-size: 13px; font-weight: bold; border-right: 1px solid #fff; display: flex; align-items: center; justify-content: center; }
+        .ho-input-group input { width: 50%; border: none; padding: 6px; text-align: center; font-size: 12px; outline: none; color: black; font-weight: bold;}
+        .ho-input-group input::placeholder { color: #555; font-weight: normal;}
+        
+        /* Reason Boxes */
+        .ho-reason-badge { display: inline-block; border: 1px solid #fff; padding: 2px 6px; font-size: 11px; border-radius: 2px; margin-bottom: 5px; }
+        .ho-reason-input { width: 100%; padding: 10px; border-radius: 4px; border: none; color: black; font-size: 13px; box-sizing: border-box; outline: none; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);}
+        
+        /* Footer & Preview Styles */
+        .ho-footer { background-color: white; padding: 25px 20px 40px 20px; text-align: center; }
+        .btn-blue { background-color: #3b71ca; color: white; border: none; padding: 12px 40px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .btn-grey { background-color: #757575; color: white; border: none; padding: 12px 40px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; margin-right: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .preview-card { background: #fff; padding: 15px; border-radius: 8px; margin-bottom: 20px; color: #333; border: 2px solid #6a1b9a; text-align: left; }
+    </style>
+</head>
+<body>
+
+    <div id="hoFormContainer">
+        <div class="ho-wrapper">
+            
+            <!-- Title Bar -->
+            <div class="ho-header">
+                <i class="fas fa-chevron-left" onclick="window.location.href='home.html'"></i>
+                <span>Handover to PPC</span>
+            </div>
+
+            <!-- Date Bar (White Background) -->
+            <div class="ho-date-bar">
+                <div class="ho-date-group">
+                    <div class="ho-date-label">Date</div>
+                    <input type="date" id="hoDate" class="ho-date-input" required>
+                </div>
+            </div>
+
+            <!-- Main Purple Form Area -->
+            <div class="ho-processes">
+                <form id="handoverForm">
+                    
+                    <!-- Front Glass -->
+                    <div class="ho-block">
+                        <div class="ho-row">
+                            <div class="ho-label">Front Glass</div>
+                            <div class="ho-inputs">
+                                <div class="ho-input-group">
+                                    <div class="ho-sub-label">Weight</div>
+                                    <input type="number" id="hoFgWeight" placeholder="Kg" step="0.01">
+                                </div>
+                                <div class="ho-input-group">
+                                    <div class="ho-sub-label">Nos</div>
+                                    <input type="number" id="hoFgNos" placeholder="Nos">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="ho-reason-badge">Reason</span>
+                            <input type="text" id="hoFgReason" class="ho-reason-input" placeholder="Type here">
+                        </div>
+                    </div>
+
+                    <!-- Back Glass -->
+                    <div class="ho-block">
+                        <div class="ho-row">
+                            <div class="ho-label">Back Glass</div>
+                            <div class="ho-inputs">
+                                <div class="ho-input-group">
+                                    <div class="ho-sub-label">Weight</div>
+                                    <input type="number" id="hoBgWeight" placeholder="Kg" step="0.01">
+                                </div>
+                                <div class="ho-input-group">
+                                    <div class="ho-sub-label">Nos</div>
+                                    <input type="number" id="hoBgNos" placeholder="Nos">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="ho-reason-badge">Reason</span>
+                            <input type="text" id="hoBgReason" class="ho-reason-input" placeholder="Type here">
+                        </div>
+                    </div>
+
+                    <!-- Busbar -->
+                    <div class="ho-block">
+                        <div class="ho-row">
+                            <div class="ho-label">Busbar</div>
+                            <div class="ho-inputs">
+                                <div class="ho-input-group">
+                                    <div class="ho-sub-label">(4+6)mm</div>
+                                    <input type="number" id="hoBusbarWeight" placeholder="Kg" step="0.01">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="ho-reason-badge">Reason</span>
+                            <input type="text" id="hoBusbarReason" class="ho-reason-input" placeholder="Type here">
+                        </div>
+                    </div>
+
+                    <!-- Potting -->
+                    <div class="ho-block">
+                        <div class="ho-row">
+                            <div class="ho-label">Potting</div>
+                            <div class="ho-inputs">
+                                <div class="ho-input-group">
+                                    <div class="ho-sub-label">A+B</div>
+                                    <input type="number" id="hoPottingWeight" placeholder="Kg" step="0.01">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="ho-reason-badge">Reason</span>
+                            <input type="text" id="hoPottingReason" class="ho-reason-input" placeholder="Type here">
+                        </div>
+                    </div>
+
+                    <!-- Cell -->
+                    <div class="ho-block">
+                        <div class="ho-row">
+                            <div class="ho-label">Cell</div>
+                            <div class="ho-inputs">
+                                <div class="ho-input-group">
+                                    <div class="ho-sub-label">ATW</div>
+                                    <input type="number" id="hoCellAtw" placeholder="Kg" step="0.01">
+                                </div>
+                                <div class="ho-input-group">
+                                    <div class="ho-sub-label">Rework</div>
+                                    <input type="number" id="hoCellRework" placeholder="Kg" step="0.01">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="ho-reason-badge">Reason</span>
+                            <input type="text" id="hoCellReason" class="ho-reason-input" placeholder="Type here">
+                        </div>
+                    </div>
+
+                    <!-- Ribbon -->
+                    <div class="ho-block">
+                        <div class="ho-row">
+                            <div class="ho-label">Ribbon</div>
+                            <div class="ho-inputs">
+                                <div class="ho-input-group">
+                                    <div class="ho-sub-label">R/W</div>
+                                    <input type="number" id="hoRibbonRw" placeholder="Kg" step="0.01">
+                                </div>
+                                <div class="ho-input-group">
+                                    <div class="ho-sub-label">TS</div>
+                                    <input type="number" id="hoRibbonTs" placeholder="Kg" step="0.01">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="ho-reason-badge">Reason</span>
+                            <input type="text" id="hoRibbonReason" class="ho-reason-input" placeholder="Type here">
+                        </div>
+                    </div>
+
+                    <!-- JB -->
+                    <div class="ho-block">
+                        <div class="ho-row">
+                            <div class="ho-label">JB</div>
+                            <div class="ho-inputs">
+                                <div class="ho-input-group">
+                                    <div class="ho-sub-label">+VE</div>
+                                    <input type="number" id="hoJbPos" placeholder="Qty">
+                                </div>
+                                <div class="ho-input-group">
+                                    <div class="ho-sub-label">-VE</div>
+                                    <input type="number" id="hoJbNeg" placeholder="Qty">
+                                </div>
+                                <div class="ho-input-group">
+                                    <div class="ho-sub-label">MID</div>
+                                    <input type="number" id="hoJbMid" placeholder="Qty">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="ho-reason-badge">Reason</span>
+                            <input type="text" id="hoJbReason" class="ho-reason-input" placeholder="Type here">
+                        </div>
+                    </div>
+
+                    <!-- Framing -->
+                    <div class="ho-block">
+                        <div class="ho-row">
+                            <div class="ho-label">Framing</div>
+                            <div class="ho-inputs">
+                                <div class="ho-input-group">
+                                    <div class="ho-sub-label">RTV</div>
+                                    <input type="number" id="hoFrmRtv" placeholder="Kg" step="0.01">
+                                </div>
+                                <div class="ho-input-group">
+                                    <div class="ho-sub-label">L Frame</div>
+                                    <input type="number" id="hoFrmL" placeholder="Qty">
+                                </div>
+                                <div class="ho-input-group">
+                                    <div class="ho-sub-label">S Frame</div>
+                                    <input type="number" id="hoFrmS" placeholder="Qty">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="ho-reason-badge">Reason</span>
+                            <input type="text" id="hoFrmReason" class="ho-reason-input" placeholder="Type here">
+                        </div>
+                    </div>
+
+                    <!-- EPE -->
+                    <div class="ho-block">
+                        <div class="ho-row">
+                            <div class="ho-label">EPE</div>
+                            <div class="ho-inputs">
+                                <div class="ho-input-group">
+                                    <div class="ho-sub-label">1st+2nd</div>
+                                    <input type="number" id="hoEpeWeight" placeholder="Kg" step="0.01">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="ho-reason-badge">Reason</span>
+                            <input type="text" id="hoEpeReason" class="ho-reason-input" placeholder="Type here">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="ho-footer">
+            <button type="button" id="previewBtn" class="btn-blue">PREVIEW DATA</button>
+        </div>
+    </div>
+
+    <!-- PREVIEW SECTION -->
+    <div id="hoPreviewContainer" style="display: none;">
+        <div class="ho-wrapper">
+            <div class="ho-header">
+                <span>Preview Handover</span>
+            </div>
+        </div>
+        
+        <div class="ho-footer" style="padding-top: 20px;">
+            <div class="preview-card" id="previewContent">
+                <!-- JS will inject the summary here -->
+            </div>
+            <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
+                <button type="button" id="editBtn" class="btn-grey" style="margin:0; padding: 12px 20px;">EDIT</button>
+                <button type="button" id="downloadJpegBtn" class="btn-grey" style="margin:0; padding: 12px 20px; background-color: #28a745;">DOWNLOAD</button>
+                <button type="button" id="finalSubmitBtn" class="btn-blue" style="margin:0; padding: 12px 20px;">SUBMIT</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

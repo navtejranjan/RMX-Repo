@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Rayborn Solar Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- FontAwesome for the icons in the input fields -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- AUTO-LOGIN CHECKER -->
+    <script>
+        // If the phone remembers a username, instantly redirect to the home screen
+        if (localStorage.getItem("username")) {
+            window.location.replace("home.html");
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Main Container ensuring full-screen centering -->
+    <div class="main-wrapper">
+        
+        <!-- Header Branding -->
+        <div class="branding">
+            <div class="logo-placeholder">
+                <span class="logo-text-purple">Rayborn</span><span class="logo-text-orange">Solar</span>
+                <span class="logo-icon">☀️</span> <!-- Replace with actual image tag for logo -->
+            </div>
+            
+            <div class="ops-title-box">
+                RAYBORN OPS
+            </div>
+        </div>
+
+        <!-- The White Login Card -->
+        <div class="login-card">
+            
+            <div class="login-header">
+                USER LOGIN
+            </div>
+
+            <form id="loginForm">
+                
+                <!-- User ID Input with Icon -->
+                <div class="input-group">
+                    <i class="fas fa-user input-icon"></i>
+                    <input type="text" id="userId" placeholder="Enter UserID" required>
+                </div>
+
+                <!-- Password Input with Icon and Eye -->
+                <div class="input-group">
+                    <i class="fas fa-key input-icon"></i>
+                    <input type="password" id="password" placeholder="Enter Password" required>
+                    <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+                </div>
+
+                <button type="submit" class="login-btn">Login</button>
+                
+                <!-- NEW: Error message container (Hidden by default) -->
+                <p id="loginError" class="error-message">Invalid UserID or Password. Please try again.</p>
+                
+                <a href="#" class="forgot-password">Forgot Password?</a>
+                
+            </form>
+
+            <!-- Footer Details -->
+            <div class="card-footer">
+                © 2024 Rayborn Solar Inc. - Secure Access Portal v1.2.0
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
